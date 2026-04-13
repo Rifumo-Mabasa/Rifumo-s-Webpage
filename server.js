@@ -30,9 +30,8 @@ app.post('/send-contact', (req, res) => {
         res.send("Message Sent Successfully!");
     });
 });
-// This tells the server: "Use the port the host gives me, or 3000 if I'm at home."
-const PORT = process.env.PORT || 3000;
+// Change this:
+fetch('http://localhost:3000/send', { ... })
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// To this (Relative Path):
+fetch('/send', { ... })
