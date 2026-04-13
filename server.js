@@ -3,11 +3,13 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const app = express();
 
-// Middleware to read the form data
+// Middleware
+app.use(express.json()); // <--- CRITICAL: This lets the server read your fetch data
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public')); // This serves your HTML/CSS
+app.use(express.static('public')); 
 
-app.post('/send-contact', (req, res) => {
+// Changed route to '/send' to match your script.js fetch call
+app.post('/send', (req, res) => {
     const { name, email, message } = req.body;
 
     const transporter = nodemailer.createTransport({
@@ -22,16 +24,19 @@ app.post('/send-contact', (req, res) => {
         from: email,
         to: process.env.EMAIL_USER,
         subject: `Message from ${name}`,
-        text: message
+        text: `From: ${name} (${email})\n\nMessage: ${message}`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
-        if (error) return res.status(500).send("Error!");
-        res.send("Message Sent Successfully!");
+        if (error) {
+            console.log(error); // This helps you see the error in Render logs
+            return res.status(500).send("Error!");
+        }
+        res.status(200).send("Message Sent Successfully!");
     });
 });
-// Change this:
-fetch('http://localhost:3000/send', { ... })
 
-// To this (Relative Path):
-fetch('/send', { ... })
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
