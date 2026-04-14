@@ -79,16 +79,12 @@
         <section id="contact-section">
             <h2>Let's Connect</h2> 
             <p>Ready to discuss your next technical project? Reach out below.</p>
-           <form class="contact-form" action="/send-contact" method="POST">
+   <form action="/send-contact" method="POST" id="contact-form" class="contact-form"> <div class="form-group">
+        <input type="text" id="name" name="name" placeholder="Your Full Name" required> </div>
     <div class="form-group">
-        <input type="text" name="name" placeholder="Your Full Name" required>
-    </div>
+        <input type="email" id="email" name="email" placeholder="Your Email" required> </div>
     <div class="form-group">
-        <input type="email" name="email" placeholder="Your Email" required>
-    </div>
-    <div class="form-group">
-        <textarea name="message" placeholder="Tell me about your project" rows="5" required></textarea>
-    </div>
+        <textarea id="message" name="message" placeholder="Tell me about your project" rows="5" required></textarea> </div>
     <button type="submit" class="btn-primary">Send Message</button>
 </form>
             
