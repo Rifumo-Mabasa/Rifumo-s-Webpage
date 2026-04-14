@@ -2,15 +2,23 @@
   "name": "upwork-site",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.cjs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rifumo-Mabasa/Rifumo-s-Webpage.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rifumo-Mabasa/Rifumo-s-Webpage/issues"
+  },
+  "homepage": "https://github.com/Rifumo-Mabasa/Rifumo-s-Webpage#readme",
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
