@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public')); 
 
-app.post('/send', (req, res) => {
+app.post('/send-contact', (req, res) => {
     const { name, email, message } = req.body;
 
     const transporter = nodemailer.createTransport({
