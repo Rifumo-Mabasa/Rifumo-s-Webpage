@@ -1,31 +1,42 @@
-// --- KEEP YOUR THEME TOGGLE CODE AT THE TOP ---
+/**
+ * THEME MANAGEMENT
+ * Handles dark/light mode persistence and UI updates
+ */
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 
+// Check for saved theme or system preference
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
+const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
     body.classList.add('dark-mode');
 }
 
 themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-    } else {
-        localStorage.setItem('theme', 'light');
-    }
+    const isDark = body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    
+    // Optional: Add a little haptic feedback or sound here if desired
 });
 
-// --- ADD THE FORM HANDLING CODE BELOW ---
-
-// 1. Select the form (make sure your HTML form has id="contact-form")
+/**
+ * CONTACT FORM HANDLING
+ * Uses async/await with improved UX (loading states)
+ */
 const contactForm = document.getElementById('contact-form');
 
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Prevents the page from refreshing
+        e.preventDefault();
 
-        // 2. Collect the data from the form inputs
+        // 1. UI Feedback: Disable button to prevent double-submission
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+
+        // 2. Data Collection (Clean & Simple)
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
@@ -33,24 +44,25 @@ if (contactForm) {
         };
 
         try {
-            // 3. Send the data to your /send route
             const response = await fetch('/send', { 
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
 
             if (response.ok) {
-                alert("Message sent successfully!");
-                contactForm.reset(); // Clears the form
+                alert("🚀 Message sent successfully!");
+                contactForm.reset();
             } else {
-                alert("Error sending message.");
+                throw new Error("Server responded with an error.");
             }
         } catch (error) {
-            console.error("Fetch error:", error);
-            alert("Could not connect to the server.");
+            console.error("Submission error:", error);
+            alert("❌ Oops! Could not connect to the server. Please try again later.");
+        } finally {
+            // 3. Reset Button State
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
         }
     });
 }

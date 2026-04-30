@@ -1,59 +1,92 @@
-/* 1. Basic Reset to clear default browser spacing */
+/* 1. Modern Variable System */
+:root {
+    /* Brand Colors */
+    --primary-blue: #007bff;
+    --primary-hover: #0056b3;
+    --primary-soft: rgba(0, 123, 255, 0.1);
+    
+    /* Light Mode Palette */
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --text-muted: #636e72;
+    --header-bg: #ffffff;
+    --card-bg: #ffffff;
+    --card-border: #eeeeee;
+    --hero-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* 2. Dark Mode Palette */
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #f5f7fa;
+    --text-muted: #b0b0b0;
+    --header-bg: #1a1a1a;
+    --card-bg: #1e1e1e;
+    --card-border: #333333;
+    --hero-bg: linear-gradient(135deg, #2d3436 0%, #000000 100%);
+    --shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* 3. Basic Reset */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* This makes padding part of the width, not extra */
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    scroll-behavior: smooth; /* This makes the jump to #contact-section a smooth glide */
+    scroll-behavior: smooth;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* 2. The Sticky Header Architecture */
+/* 4. The Sticky Header */
 .main-header {
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Adds a subtle shadow for depth */
-    
-    /* This is the magic for the sticky effect */
+    background-color: var(--header-bg); /* Use variable so it flips in Dark Mode */
+    box-shadow: var(--shadow);
     position: sticky;
     top: 0;
-    z-index: 1000; /* Ensures the header stays on top of all other content */
+    z-index: 1000;
+    transition: background-color 0.3s;
 }
 
-/* 3. Navigation Layout using Flexbox */
 nav {
     display: flex;
-    justify-content: space-between; /* Pushes Logo to left, Menu to right */
+    justify-content: space-between;
     align-items: center;
     max-width: 1200px;
-    margin: 0 auto; /* Centers the nav container */
+    margin: 0 auto;
     padding: 1rem 2rem;
 }
 
 .logo {
     display: flex;
-    align-items: center; /* Centers image and text vertically */
-    gap: 10px;           /* Perfect engineering: fixed space between icon and text */
+    align-items: center;
+    gap: 10px;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #333;
-    text-decoration: none; /* In case you wrap the whole thing in an <a> tag later */
+    color: var(--text-color);
+    text-decoration: none;
 }
-.logo-img {
-    height: 40px;        /* Set a fixed height to match your nav bar scale */
-    width: auto;         /* Keeps the aspect ratio perfect so the logo doesn't stretch */
-    border-radius: 4px;  /* Optional: slightly rounded corners for a modern feel */
-    object-fit: contain; /* Ensures the image scales nicely within its container */}
 
 .logo span {
-    color: #007bff; /* Engineering Blue for your "brand" */
+    color: var(--primary-blue);
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+    border-radius: 4px;
+    object-fit: contain;
 }
 
 nav ul {
     display: flex;
-    list-style: none; /* Removes the bullet points */
+    list-style: none;
 }
 
 nav ul li {
@@ -62,59 +95,56 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #555;
+    color: var(--text-muted);
     font-weight: 500;
-    transition: color 0.3s ease; /* Smooth color change on hover */
+    transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #007bff; /* The Hover State we discussed! */
+    color: var(--primary-blue);
 }
-/* THE HERO SECTION */
+
+/* 5. Hero Section */
 .hero {
-    /* height: 100vh makes it exactly as tall as the screen */
-    /* Subtracting 80px (approx header height) ensures no scrolling is needed to see the whole hero */
     min-height: calc(100vh - 80px); 
-    
     display: flex;
-    align-items: center; /* Vertical centering */
-    justify-content: center; /* Horizontal centering */
-    
-    /* A subtle technical gradient */
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    align-items: center;
+    justify-content: center;
+    background: var(--hero-bg);
     padding: 2rem;
     text-align: center;
 }
 
 .hero-content {
-    max-width: 800px; /* Prevents text from stretching too wide on big screens */
+    max-width: 800px;
 }
 
 .hero h1 {
-    font-size: 3rem; /* Bold, clear title */
-    color: #2d3436;
+    font-size: clamp(2rem, 5vw, 3rem); /* Responsive font size */
+    color: var(--text-color);
     margin-bottom: 1rem;
     line-height: 1.2;
 }
 
 .hero h2 {
     font-size: 1.5rem;
-    color: #007bff; /* That Engineering Blue again */
+    color: var(--primary-blue);
     font-weight: 400;
     margin-bottom: 2rem;
 }
 
 .hero p {
     font-size: 1.1rem;
-    color: #636e72;
+    color: var(--text-muted);
     margin-bottom: 2.5rem;
 }
 
-/* BUTTON STYLING */
+/* 6. Buttons */
 .hero-btns {
     display: flex;
-    gap: 1.5rem; /* Space between the two buttons */
+    gap: 1.5rem;
     justify-content: center;
+    flex-wrap: wrap; /* Wraps on mobile */
 }
 
 .btn-primary, .btn-secondary {
@@ -126,24 +156,26 @@ nav ul li a:hover {
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: var(--primary-blue);
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
-    transform: translateY(-3px); /* Subtle "lift" effect on hover */
+    background-color: var(--primary-hover);
+    transform: translateY(-3px);
 }
 
 .btn-secondary {
-    border: 2px solid #007bff;
-    color: #007bff;
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
 }
 
 .btn-secondary:hover {
-    background-color: rgba(0, 123, 255, 0.1);
+    background-color: var(--primary-soft);
     transform: translateY(-3px);
 }
+
+/* 7. Projects Section */
 .projects-section {
     padding: 4rem 2rem;
     max-width: 1200px;
@@ -158,25 +190,26 @@ nav ul li a:hover {
 
 .projects-grid {
     display: grid;
-    /* This creates a responsive grid: 1 column on mobile, more on desktop */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* Bulletproof grid: prevents overflow on small screens */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: 2rem;
 }
 
 .project-card {
-    background: #fff;
-    border: 1px solid #eee;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     padding: 2rem;
     border-radius: 10px;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .project-card:hover {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow);
+    transform: translateY(-5px);
 }
 
 .project-tag {
-    color: #007bff;
+    color: var(--primary-blue);
     font-size: 0.8rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -192,7 +225,8 @@ nav ul li a:hover {
 }
 
 .project-tech li {
-    background: #f0f0f0;
+    background: var(--primary-soft);
+    color: var(--primary-blue);
     padding: 4px 10px;
     border-radius: 4px;
     font-size: 0.85rem;
@@ -200,13 +234,15 @@ nav ul li a:hover {
 
 .view-project {
     text-decoration: none;
-    color: #333;
+    color: var(--text-color);
     font-weight: bold;
     font-size: 0.9rem;
 }
+
+/* 8. Contact Section */
 #contact-section {
     padding: 4rem 2rem;
-    background-color: #f9f9f9;
+    background-color: var(--header-bg);
     text-align: center;
 }
 
@@ -226,7 +262,9 @@ nav ul li a:hover {
 .form-group textarea {
     width: 100%;
     padding: 1rem;
-    border: 1px solid #ddd;
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--card-border);
     border-radius: 5px;
     font-family: inherit;
 }
@@ -234,37 +272,5 @@ nav ul li a:hover {
 .direct-contact {
     margin-top: 3rem;
     font-size: 0.9rem;
-    color: var(--text-color);
-    opacity: 0.8; /* Slight fade for that "secondary" feel */
-}
-/* Default Light Mode Variables */
-:root {
-    --bg-color: #ffffff;
-    --text-color: #333333;
-    --hero-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    --card-bg: #ffffff;
-}
-
-/* Dark Mode Variables - Applied when .dark-mode class is on the body */
-body.dark-mode {
-    --bg-color: #1a1a1a;
-    --text-color: #f5f7fa;
-    --hero-bg: linear-gradient(135deg, #2d3436 0%, #000000 100%);
-    --card-bg: #2d2d2d;
-}
-
-/* Update your existing styles to use these variables */
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
-}
-
-.hero {
-    background: var(--hero-bg);
-}
-
-.project-card {
-    background: var(--card-bg);
-    color: var(--text-color);
+    color: var(--text-muted);
 }
